@@ -26,6 +26,24 @@ class UserService {
         return $this->user->create($user);
     }
 
+    public function updateUser($userId, $param)
+    {
+        $user = $this->user->find($userId);
+        $updatedUser = [
+            'name' => $param['name'] ?? $user->name, 
+            'email' => $param['email'] ?? $user->email, 
+        ];
+        
+        if (isset($param['password']) && $param['password']) {
+            $updatedUser['password'] = $param['password'];
+        }
+        
+        $user->update($updatedUser);
+        
+        return $user;
+    }
+
+
     public function search($param){
     	$UserSearch = $this->user;
     	if ($param['keyword']) {
